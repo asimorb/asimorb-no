@@ -23,6 +23,8 @@
 # misc
 .DS_Store
 *.pem
+*.mov
+public/Websites/untitled folder/
 
 # debug
 npm-debug.log*
