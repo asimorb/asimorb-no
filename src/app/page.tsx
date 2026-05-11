@@ -783,6 +783,10 @@ export default function Home() {
         <div>
           {activeCategory === "About" ? (
             <div>
+              <div className="mb-8 whitespace-pre-line text-left font-mono text-[11px] font-normal leading-[1.35] text-neutral-900">
+                {"Asim Hameed, PhD\nTrondheim, Norway"}
+              </div>
+
               <div className="grid gap-8 md:grid-cols-2 md:gap-10">
                 {aboutColumns.map((column, columnIndex) => (
                   <div key={columnIndex} className="space-y-6">
