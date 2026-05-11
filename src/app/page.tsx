@@ -5,10 +5,11 @@ import { useState } from "react";
 
 const categories = [
   "Websites",
-  "Prints",
-  "Interfaces",
   "Logos",
-  "Studies",
+  "Interfaces",
+  "Research",
+  "Prints",
+  "About",
 ] as const;
 type Category = (typeof categories)[number];
 
@@ -29,6 +30,61 @@ interface ProjectImage {
   className: string;
   imageClassName?: string;
   kind?: "image" | "video";
+}
+
+const aboutColumns = [
+  [
+    "I make things to understand them. Whether designing built spaces, developing interactive environments, or conducting user research, my practice centers on iterative making prototyping ideas, observing how people engage with them, and refining based on what emerges through use.",
+    "This approach has taken me through architecture and built projects, media arts and technology, UX research, and immersive environment development. Across these contexts, I work from a consistent question: what possibilities for action do people actually perceive in an environment, and how does that shape their experience? This affordance-perception lens connects my spatial design work, my research on interactivity in virtual environments, and my facilitation of participatory processes.",
+  ],
+  [
+    "My background integrates design thinking, empirical methods, and creative technology. I've led design studios, conducted mixed-method studies, built VR environments, and coordinated collaborations between artists, technologists, and researchers. I draw on ecological psychology, phenomenology, and media theory, not as abstract frameworks but as tools for understanding how environments and inhabitants co-constitute experience.",
+    "I'm particularly interested in spatial ecologies where different communities perceive different possibilities within the same environment, and in developing methods that make these perception gaps visible and actionable.",
+  ],
+] as const;
+
+const aboutPortrait: ProjectImage = {
+  src: "/Reference/Portrait.jpg",
+  alt: "Portrait of Asim",
+  className: "top-[8%] left-[30%] h-[84%] w-[40%]",
+  imageClassName: "object-cover",
+};
+
+function ProjectDescription({
+  description,
+  className,
+}: {
+  description: string;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`mt-6 text-left text-[12px] leading-[1.25] text-neutral-900 ${
+        className ?? "max-w-[52%]"
+      }`}
+    >
+      {description.split("\n").map((line, index) => {
+        const trimmedLine = line.trim();
+        const isHeading =
+          /^(QUESTION|FINDING|WHY|METHODS(?: \(Design x Measures\))?|TOOLS|Design|Measures|Hardware|Software)$/.test(
+            trimmedLine,
+          );
+
+        return (
+          <p
+            key={`${line}-${index}`}
+            className={`${line === "" ? "h-[1.25em]" : ""} ${
+              isHeading
+                ? "font-mono text-[11px] font-semibold leading-[1.35]"
+                : ""
+            }`}
+          >
+            {line}
+          </p>
+        );
+      })}
+    </div>
+  );
 }
 
 const projects: Project[] = [
@@ -78,7 +134,7 @@ const projects: Project[] = [
   },
   {
     id: 109,
-    title: "Asimorb Portfolio (featured on Site of Sites)",
+    title: "Asimorb Portfolio (featured on: Site of Sites)",
     category: "Websites",
     year: "2026",
     description: "",
@@ -309,6 +365,111 @@ const projects: Project[] = [
       },
     ],
   },
+  {
+    id: 301,
+    title: "Hand-tracking vs. Controllers in VR interactions",
+    category: "Research",
+    year: "2021",
+    description:
+      "QUESTION\nHow do hand-tracking and handheld-controllers compare for reach-grab-place tasks in VR?\n\nFINDING\nControllers outperformed hand-tracking on speed, accuracy, mental workload, and usability. Neither modality affected presence or immersion.\n\nWHY\nMismatch between available gesture (single \"pinch\") and required grips (six distinct prehension types) created cognitive friction despite hand-tracking being theoretically more natural.\n\nMETHODS (Design x Measures)\n2x2 within-subject study (N=33). Hand-tracking vs. Controller X Color vs. Grayscale\nTask Reorganize 15 objects requiring six different grip types\n\n- Performance log: completion time, grab attempts\n- Behavioral: Video coding via KINOVEA (vectors, angles, tracking)\n- Subjective: IPQ (presence), NASA-TLX, AttrakDiff (usability)\n- Analysis: Two-way MANOVA with ANOVAs, Intraclass Correlation Coefficient (ICC), and Root mean square error (RMSE)\n\nTOOLS\nHardware Oculus Quest 1 (inside-out tracking, 6DOF)\nSoftware SketchUp Pro, Unreal Engine 4.26, SPSS 28.0, Kinovea 0.9.5\nInput Point/pinch gestures vs. grip button controller",
+    descriptionClassName: "max-w-full",
+    images: [
+      {
+        src: "/Studies/HT%201.jpg",
+        alt: "Hand-tracking vs controllers study image 01",
+        className: "top-[10%] left-[7%] h-[36%] w-[38%]",
+        imageClassName: "object-cover",
+      },
+      {
+        src: "/Studies/HT%202.jpg",
+        alt: "Hand-tracking vs controllers study image 02",
+        className: "top-[10%] left-[55%] h-[36%] w-[38%]",
+        imageClassName: "object-cover",
+      },
+      {
+        src: "/Studies/HT%203.jpg",
+        alt: "Hand-tracking vs controllers study image 03",
+        className: "bottom-[8%] left-[7%] h-[36%] w-[38%]",
+        imageClassName: "object-cover",
+      },
+      {
+        src: "/Studies/HT%204.jpg",
+        alt: "Hand-tracking vs controllers study image 04",
+        className: "bottom-[8%] left-[55%] h-[36%] w-[38%]",
+        imageClassName: "object-cover",
+      },
+    ],
+  },
+  {
+    id: 302,
+    title: "Affordance mismatch in VR environments",
+    category: "Research",
+    year: "2020",
+    description:
+      "QUESTION\nDoes adding interactivity (manipulation/effect affordances) to VR architectural walkthroughs improve presence and change user behavior?\n\nFINDING\nInteractive walkthrough increased spatial presence and engagement but did not change overt physical behaviors (movement, gestures). Users relied on familiar digital interactions (point-and-click) rather than spatial behaviors.\n\nWHY\nMetaphorical affordances (VR imitating real objects like door handles) created expectations that could not be physically met, causing users to appropriate controllers in familiar ways rather than using spatial literacy.\n\nMETHODS (Design x Measures)\nWithin-subject study (N=34): Passive walkthrough (PW) vs. Interactive walkthrough (IW) in identical virtual apartment\n\n- Subjective: ITC-SOPI (presence, engagement, etc.)\n- Behavioral: Video coding via BORIS software (states and events)\n- Analysis: MANCOVA controlling for active run-time.\n\nTOOLS\nHardware\n- HTC Vive Pro HMD (6DOF, 1440x1600 per eye, 90Hz, 110deg FoV) / Input with HTC Vive handheld controllers\n- Windows 10 Pro, Intel i7 7700 3.6GHz, 32GB RAM, NVIDIA GTX 1060\nSoftware SketchUp Pro / Unreal Engine 4.22 / BORIS 7.9.19 / IBM SPSS",
+    descriptionClassName: "max-w-full",
+    images: [
+      {
+        src: "/Studies/AFF%201.png",
+        alt: "Affordance mismatch study image 01",
+        className: "top-[12%] left-[6%] h-[34%] w-[40%]",
+        imageClassName: "object-cover",
+      },
+      {
+        src: "/Studies/AFF%202.png",
+        alt: "Affordance mismatch study image 02",
+        className: "top-[12%] left-[54%] h-[34%] w-[40%]",
+        imageClassName: "object-cover",
+      },
+      {
+        src: "/Studies/AFF%203.png",
+        alt: "Affordance mismatch study image 03",
+        className: "bottom-[8%] left-[30%] h-[34%] w-[40%]",
+        imageClassName: "object-cover",
+      },
+    ],
+  },
+  {
+    id: 303,
+    title: "Location-based Storytelling App in a Natural Park",
+    category: "Research",
+    year: "",
+    description:
+      "QUESTION\nDoes the addition of 3D character available as Augmented Reality (AR) inside a location-based storytelling app improve user experience compared to text-and-narration only delivery in an outdoor environment?\n\nFINDING\nAR version significantly increased immersion and flow, and showed higher desirability and attractiveness. No difference in other aspects like competence, tension, challenge, or negative effects.\n\nWHY\n3D characters made the experience more engaging compared to the text-and-narration version. The story-world was delivered more effectively with the 3D characters appearing through AR in the outdoor environment.\n\nMETHODS (Design x Measures)\nBetween-subject field experiment (N=30) comparing two app versions along a 700m nature trail within a protected nature area in the Rindal region. TB (text-and-narration based) vs. AR-based (troll characters with voice-overs)\n\n- Game Experience Questionnaire (GEQ): 9 dimensions including immersion, flow, challenge, etc.\n- AttrakDiff: Pragmatic quality (PQ), hedonic quality (HQ-I, HQ-S), attractiveness (ATT)\n- Analysis: MANOVA with follow-up ANOVAs\n\nTOOLS\nHardware\n- Apple iPad, 5th gen, 9.7\" screen, 2048x1536 resolution, 8MP camera / Bad Elf GPS (2.5m accuracy)\n\nSoftware\nUnity (2019.3.4f1), Vuforia Engine (9.7.5) / ZBrush (2021), Maya (2020) / Substance Painter (2020) / Photoshop (2021)",
+    descriptionClassName: "max-w-full",
+    images: [
+      {
+        src: "/Studies/TR%201.jpg",
+        alt: "Location-based storytelling app study image 01",
+        className: "top-[10%] left-[5%] h-[30%] w-[28%]",
+        imageClassName: "object-cover",
+      },
+      {
+        src: "/Studies/TR%202.jpg",
+        alt: "Location-based storytelling app study image 02",
+        className: "top-[10%] left-[36%] h-[30%] w-[28%]",
+        imageClassName: "object-cover",
+      },
+      {
+        src: "/Studies/TR%203.jpg",
+        alt: "Location-based storytelling app study image 03",
+        className: "top-[10%] left-[67%] h-[30%] w-[28%]",
+        imageClassName: "object-cover",
+      },
+      {
+        src: "/Studies/TR%204.jpg",
+        alt: "Location-based storytelling app study image 04",
+        className: "bottom-[10%] left-[20%] h-[30%] w-[28%]",
+        imageClassName: "object-cover",
+      },
+      {
+        src: "/Studies/TR%205.webp",
+        alt: "Location-based storytelling app study image 05",
+        className: "bottom-[10%] left-[52%] h-[30%] w-[28%]",
+        imageClassName: "object-cover",
+      },
+    ],
+  },
 
   {
     id: 1,
@@ -512,20 +673,52 @@ export default function Home() {
   const visibleProjects = projects.filter(
     (project) => project.category === activeCategory,
   );
+  const categoryNav = (variant: "rail" | "mobile") => (
+    <nav aria-label="Work categories">
+      <ul
+        className={
+          variant === "rail"
+            ? "space-y-2"
+            : "flex items-baseline justify-between gap-x-2"
+        }
+      >
+        {categories.map((cat) => (
+          <li key={cat}>
+            <button
+              type="button"
+              className={`text-xs leading-snug transition-colors duration-150 ${
+                cat === activeCategory
+                  ? "font-bold text-neutral-900"
+                  : "font-normal text-neutral-400 hover:text-neutral-700"
+              }`}
+              onClick={() => setActiveCategory(cat)}
+            >
+              {cat}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
 
   return (
-    <main className="max-w-2xl mx-auto px-6 py-12 text-[15px] leading-[1.22] md:py-16">
+    <main className="relative max-w-2xl mx-auto px-6 py-12 text-[15px] leading-[1.22] md:py-16">
+      <div className="hidden md:block fixed inset-x-0 top-6 z-20 mx-auto max-w-2xl px-6 pointer-events-none md:top-10">
+        <h1 className="text-[16px] font-normal leading-none">@asimorb</h1>
+      </div>
+      <h1 className="mb-8 text-[16px] font-normal leading-none md:hidden">
+        @asimorb
+      </h1>
+
       {/*
        * Single persistent grid used for the entire page.
        * Left col (narrow): title, then categories.
        * Right col (wide):  bio + contacts, then project cards.
        */}
-      <div className="grid grid-cols-[72px_1fr] gap-x-8 md:grid-cols-[100px_1fr] md:gap-x-10">
+      <div className="grid grid-cols-1 gap-x-8 md:grid-cols-[100px_1fr] md:gap-x-10">
 
         {/* ── @asimorb — left col ──────────────────────────────────────── */}
-        <div className="-translate-y-12 pt-px">
-          <h1 className="text-[16px] font-regular leading-none">@asimorb</h1>
-        </div>
+        <div className="hidden md:block" />
 
         {/* ── Bio + contacts — right col ───────────────────────────────── */}
         <div className="pb-12 md:pb-16">
@@ -572,149 +765,173 @@ export default function Home() {
           </div>
         </div>
 
+        {/* ── Mobile category nav — full width ─────────────────────────── */}
+        <div className="mb-2 md:hidden">{categoryNav("mobile")}</div>
+
         {/* ── Divider — aligns with the right column ───────────────────── */}
-        <div />
+        <div className="hidden md:block" />
         <hr className="mb-10 border-neutral-200" />
 
         {/* ── Category nav — left col, sticky ──────────────────────────── */}
-        <aside>
-          <div className="sticky top-8">
-            <nav aria-label="Work categories">
-              <ul className="space-y-2">
-                {categories.map((cat) => (
-                  <li key={cat}>
-                    <button
-                      type="button"
-                      className={`text-left text-sm leading-snug transition-colors duration-150 ${
-                        cat === activeCategory
-                          ? "font-bold text-neutral-900"
-                          : "font-normal text-neutral-400 hover:text-neutral-700"
-                      }`}
-                      onClick={() => setActiveCategory(cat)}
-                    >
-                      {cat}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </nav>
+        <aside className="hidden justify-self-start md:block">
+          <div className="sticky top-40">
+            {categoryNav("rail")}
           </div>
         </aside>
 
-        {/* ── Project cards — right col ────────────────────────────────── */}
+        {/* ── Active category content — right col ──────────────────────── */}
         <div>
-          {visibleProjects.map((project, index) => (
-            <div
-              key={project.id}
-              className={
-                index === 0
-                  ? ""
-                  : project.title
-                    ? "mt-14 md:mt-20"
-                    : "mt-2 md:mt-4"
-              }
-            >
-              {project.title ? (
-                <div className="mb-3">
-                  <div className="flex items-baseline justify-between gap-4">
-                    <h2 className="text-[12px] font-normal leading-none">
-                      {project.id === 109 ? (
-                        <>
-                          Asimorb Portfolio (featured on{" "}
-                          <a
-                            href="https://www.siteofsites.co/websites/asim"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="font-mono text-[11px] leading-[1.35] underline decoration-dotted underline-offset-2 transition-colors duration-150 hover:text-neutral-500"
-                          >
-                            Site of Sites <span className="text-[11px] leading-none">↗</span>
-                          </a>
-                          )
-                        </>
-                      ) : (
-                        project.title
-                      )}
-                    </h2>
-                    <p className="font-mono text-[13px] leading-none text-neutral-900">
-                      {project.year}
-                    </p>
+          {activeCategory === "About" ? (
+            <div>
+              <div className="grid gap-8 md:grid-cols-2 md:gap-10">
+                {aboutColumns.map((column, columnIndex) => (
+                  <div key={columnIndex} className="space-y-6">
+                    {column.map((paragraph) => (
+                      <p
+                        key={paragraph}
+                        className="text-[12px] leading-[1.25] text-neutral-900"
+                      >
+                        {paragraph}
+                      </p>
+                    ))}
                   </div>
+                ))}
+              </div>
+
+              <div className="relative mt-14 w-full aspect-[4/3] bg-neutral-100 overflow-hidden">
+                <button
+                  type="button"
+                  className={`absolute cursor-zoom-in ${aboutPortrait.className}`}
+                  onClick={() => setHeroImage(aboutPortrait)}
+                  aria-label={`Open ${aboutPortrait.alt}`}
+                >
+                  <Image
+                    src={aboutPortrait.src}
+                    alt={aboutPortrait.alt}
+                    fill
+                    sizes="(max-width: 768px) 50vw, 360px"
+                    className={aboutPortrait.imageClassName ?? "object-contain"}
+                    unoptimized
+                  />
+                </button>
+              </div>
+            </div>
+          ) : (
+            visibleProjects.map((project, index) => (
+              <div
+                key={project.id}
+                className={
+                  index === 0
+                    ? ""
+                    : project.title
+                      ? "mt-14 md:mt-20"
+                      : "mt-2 md:mt-4"
+                }
+              >
+                {project.title ? (
+                  <div className="mb-3">
+                    <div className="flex items-baseline justify-between gap-4">
+                      <h2 className="text-[12px] font-normal leading-none">
+                        {project.id === 109 ? (
+                          <>
+                            Asimorb Portfolio (featured on{" "}
+                            <a
+                              href="https://www.siteofsites.co/websites/asim"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="font-mono text-[11px] leading-[1.35] underline decoration-dotted underline-offset-2 transition-colors duration-150 hover:text-neutral-500"
+                            >
+                              Site of Sites <span className="text-[11px] leading-none">↗</span>
+                            </a>
+                            )
+                          </>
+                        ) : (
+                          project.title
+                        )}
+                      </h2>
+                      <p className="font-mono text-[13px] leading-none text-neutral-900">
+                        {project.year}
+                      </p>
+                    </div>
 
                   {project.description &&
                   project.category !== "Logos" &&
                   project.category !== "Prints" ? (
-                    <p
-                      className={`mt-6 text-left text-[12px] leading-[1.25] text-neutral-900 ${
-                        project.descriptionClassName ?? "max-w-[52%]"
-                      }`}
-                    >
-                      {project.description}
-                    </p>
+                    <ProjectDescription
+                      description={project.description}
+                      className={project.descriptionClassName}
+                    />
                   ) : null}
-                </div>
-              ) : null}
-
-              {/* Card — artwork only */}
-              <div
-                className={`relative w-full bg-neutral-100 overflow-hidden ${
-                  project.cardClassName ?? "aspect-[4/3]"
-                }`}
-              >
-                {project.description &&
-                (project.category === "Logos" ||
-                  project.category === "Prints") ? (
-                  <div
-                    className={`absolute top-5 right-5 z-10 text-right ${
-                      project.descriptionClassName ?? "max-w-[52%]"
-                    }`}
-                  >
-                    <p className="text-[12px] leading-[1.25] text-neutral-900">
-                      {project.description}
-                    </p>
                   </div>
                 ) : null}
 
-                {project.images.map((image) => (
-                  <button
-                    key={image.src}
-                    type="button"
-                    className={`absolute cursor-zoom-in ${image.className}`}
-                    onClick={() => setHeroImage(image)}
-                    aria-label={`Open ${image.alt}`}
-                  >
-                    {image.kind === "video" ? (
-                      <video
-                        src={image.src}
-                        className="h-full w-full object-contain"
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                        preload="metadata"
-                      />
-                    ) : (
-                      <Image
-                        src={image.src}
-                        alt={image.alt}
-                        fill
-                        sizes="(max-width: 768px) 50vw, 360px"
-                        className={image.imageClassName ?? "object-contain"}
-                        unoptimized
-                      />
-                    )}
-                  </button>
-                ))}
+                {/* Card — artwork only */}
+                <div
+                  className={`relative w-full bg-neutral-100 overflow-hidden ${
+                    project.cardClassName ?? "aspect-[4/3]"
+                  }`}
+                >
+                  {project.description &&
+                  (project.category === "Logos" ||
+                    project.category === "Prints") ? (
+                    <div
+                      className={`absolute top-5 right-5 z-10 text-right ${
+                        project.descriptionClassName ?? "max-w-[52%]"
+                      }`}
+                    >
+                      <p className="whitespace-pre-line text-[12px] leading-[1.25] text-neutral-900">
+                        {project.description}
+                      </p>
+                    </div>
+                  ) : null}
+
+                  {project.images.map((image) => (
+                    <button
+                      key={image.src}
+                      type="button"
+                      className={`absolute cursor-zoom-in ${image.className}`}
+                      onClick={() => setHeroImage(image)}
+                      aria-label={`Open ${image.alt}`}
+                    >
+                      {image.kind === "video" ? (
+                        <video
+                          src={image.src}
+                          className="h-full w-full object-contain"
+                          autoPlay
+                          muted
+                          loop
+                          playsInline
+                          preload="metadata"
+                        />
+                      ) : (
+                        <Image
+                          src={image.src}
+                          alt={image.alt}
+                          fill
+                          sizes="(max-width: 768px) 50vw, 360px"
+                          className={image.imageClassName ?? "object-contain"}
+                          unoptimized
+                        />
+                      )}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
 
       </div>
 
+      <div className="mt-14 md:hidden">
+        <hr className="border-neutral-200" />
+        <div className="mt-2">{categoryNav("mobile")}</div>
+      </div>
+
       {/* ── Footer — mirrors the grid alignment ──────────────────────── */}
-      <div className="mt-16 grid grid-cols-[72px_1fr] gap-x-8 md:grid-cols-[100px_1fr] md:gap-x-10">
-        <div />
-        <p className="border-t border-neutral-200 pt-6 font-mono text-[12px] leading-none text-neutral-400">
+      <div className="mt-16 grid grid-cols-1 gap-x-8 md:grid-cols-[100px_1fr] md:gap-x-10">
+        <div className="hidden md:block" />
+        <p className="pt-6 font-mono text-[12px] leading-none text-neutral-400 md:border-t md:border-neutral-200">
           &copy; {year} asimorb
         </p>
       </div>
