@@ -1,17 +1,19 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 const categories = [
   "Websites",
-  "Logos",
+  "Visuals",
   "Interfaces",
   "Research",
-  "Prints",
   "About",
 ] as const;
 type Category = (typeof categories)[number];
+const visualSubcategories = ["LOGOS", "PRINTS"] as const;
+type VisualSubcategory = (typeof visualSubcategories)[number];
 
 interface Project {
   id: number;
@@ -22,6 +24,7 @@ interface Project {
   images: ProjectImage[];
   cardClassName?: string;
   descriptionClassName?: string;
+  href?: string;
 }
 
 interface ProjectImage {
@@ -30,6 +33,12 @@ interface ProjectImage {
   className: string;
   imageClassName?: string;
   kind?: "image" | "video";
+}
+
+function getVisualSubcategory(project: Project): VisualSubcategory {
+  return project.images.some((image) => image.src.startsWith("/Prints/"))
+    ? "PRINTS"
+    : "LOGOS";
 }
 
 const aboutColumns = [
@@ -127,6 +136,22 @@ const projects: Project[] = [
       {
         src: "/Websites/ART5.mp4",
         alt: "ARTEC website interaction video",
+        className: "bottom-[10%] left-[3%] h-[80%] w-[94%]",
+        kind: "video",
+      },
+    ],
+  },
+  {
+    id: 110,
+    title: "A Visual Quality Taxonomy for VR",
+    category: "Websites",
+    year: "2026",
+    description: "",
+    href: "/vr-taxonomy",
+    images: [
+      {
+        src: "/Websites/Tax-h264.mp4",
+        alt: "A Visual Quality Taxonomy for VR interaction video",
         className: "bottom-[10%] left-[3%] h-[80%] w-[94%]",
         kind: "video",
       },
@@ -366,6 +391,24 @@ const projects: Project[] = [
     ],
   },
   {
+    id: 300,
+    title: "Interactive VR Quality Taxonomy",
+    category: "Research",
+    year: "2026",
+    description:
+      "A separate interactive framework for evaluating virtual reality experiences across immersivity, interactivity, explorability, plausibility, and believability.",
+    descriptionClassName: "max-w-full",
+    href: "/vr-taxonomy",
+    images: [
+      {
+        src: "/Websites/Tax3.jpeg",
+        alt: "Visual VR taxonomy preview",
+        className: "top-[12%] left-[7%] h-[76%] w-[86%]",
+        imageClassName: "object-contain",
+      },
+    ],
+  },
+  {
     id: 301,
     title: "Hand-tracking vs. Controllers in VR interactions",
     category: "Research",
@@ -474,7 +517,7 @@ const projects: Project[] = [
   {
     id: 1,
     title: "Hinc AS",
-    category: "Logos",
+    category: "Visuals",
     year: "2026",
     description:
       "Website design and development for a small consultancy firm specialising in organisational development and workplace culture.",
@@ -487,7 +530,7 @@ const projects: Project[] = [
   {
     id: 2,
     title: "Metastory",
-    category: "Logos",
+    category: "Visuals",
     year: "2025",
     description:
       "This logo board for an MSCA Doctoral Network funding presents nine adaptive iterations of a shared identity system, each tailored to distinct communicative contexts.",
@@ -500,7 +543,7 @@ const projects: Project[] = [
   {
     id: 3,
     title: "NIYF",
-    category: "Logos",
+    category: "Visuals",
     year: "2023",
     description:
       "Nature in Your Face (NIYF) was a research project intended for transformative societal change. Its logo translates disruptive climate communication into a bold visual language.",
@@ -513,7 +556,7 @@ const projects: Project[] = [
   {
     id: 4,
     title: "NTNU Kreativ",
-    category: "Logos",
+    category: "Visuals",
     year: "2021",
     description:
       "Brand identity for NTNU Kreativ, the university's creative hub for interdisciplinary projects and student initiatives.",
@@ -526,7 +569,7 @@ const projects: Project[] = [
   {
     id: 5,
     title: "They See Us",
-    category: "Logos",
+    category: "Visuals",
     year: "2021",
     description:
       "They See Us is a visual identity built around visibility, heritage, and the quiet confidence of diasporic food culture. The name plays on “Desi Us,” folding self-identification and external perception into a single phrase.",
@@ -539,7 +582,7 @@ const projects: Project[] = [
   {
     id: 6,
     title: "IN2",
-    category: "Logos",
+    category: "Visuals",
     year: "2020",
     description:
       "The IN2MEDIA logo was designed for the NGINO Consortium to secure the NextGenerationEU funding. The IN2Media logo fuses bold typographic clarity with a vibrant, fluid gradient form.",
@@ -552,7 +595,7 @@ const projects: Project[] = [
   {
     id: 7,
     title: "IDN 4 CCI",
-    category: "Logos",
+    category: "Visuals",
     year: "2021",
     description:
       "The logo was designed for a proposed project addressing EU Research & Innovation Action in Culture and Creative Industries to embrace intersectional technologies.",
@@ -562,49 +605,38 @@ const projects: Project[] = [
       className: "bottom-[6%] left-[6%] h-[40%] w-[27.2%]",
     }],
   },
-    {
+  {
     id: 9,
-    title: "ARTEC AI Imaginaries",
-    category: "Prints",
+    title: "ARTEC EVENTS",
+    category: "Visuals",
     year: "2020",
     description:
       "",
-    images: [{
-      src: "/Prints/Poster%2002.webp",
-      alt: "ARTEC Seminar Series poster 02",
-      className: "bottom-[10%] left-[8%] h-[80%] w-[40%]",
-    }],
-  },
-  {
-    id: 8,
-    title: "ARTEC Seminar Series",
-    category: "Prints",
-    year: "2020",
-    description:
-      "",
-    images: [{
-      src: "/Prints/Poster%2001.webp",
-      alt: "ARTEC Seminar Series poster 01",
-      className: "bottom-[10%] left-[8%] h-[80%] w-[40%]",
-    }],
-  },
-  {
-    id: 10,
-    title: "ARTEC Spectral Landscapes",
-    category: "Prints",
-    year: "2019",
-    description:
-      "",
-    images: [{
-      src: "/Prints/Poster%2003.webp",
-      alt: "ARTEC Seminar Series poster 03",
-      className: "bottom-[10%] left-[8%] h-[80%] w-[40%]",
-    }],
+    images: [
+      {
+        src: "/Prints/Poster%2002.webp",
+        alt: "ARTEC AI Imaginaries poster",
+        className: "bottom-[8%] left-[5%] h-[82%] w-[31%]",
+        imageClassName: "object-contain object-bottom",
+      },
+      {
+        src: "/Prints/Poster%2003.webp",
+        alt: "ARTEC Spectral Landscapes poster",
+        className: "bottom-[8%] left-[39%] h-[82%] w-[31%]",
+        imageClassName: "object-contain object-bottom",
+      },
+      {
+        src: "/Prints/Poster%2001.webp",
+        alt: "ARTEC Seminar Series poster",
+        className: "bottom-[8%] left-[73%] h-[55%] w-[20.5%]",
+        imageClassName: "object-contain object-bottom",
+      },
+    ],
   },
   {
     id: 11,
     title: "They See Us",
-    category: "Prints",
+    category: "Visuals",
     year: "2021",
     description:
       "The visual identity is built around visibility and heritage. Using bold, conversational typography and vibrant, market-inspired imagery to echo the energy of desi street food.",
@@ -616,7 +648,7 @@ const projects: Project[] = [
   },
   {
     id: 12,
-    category: "Prints",
+    category: "Visuals",
     year: "",
     description:
       "",
@@ -635,7 +667,7 @@ const projects: Project[] = [
   },
   {
     id: 13,
-    category: "Prints",
+    category: "Visuals",
     year: "",
     description:
       "",
@@ -664,14 +696,23 @@ const contactLinks = [
   { label: "Instagram", href: "https://instagram.com/acimorlv" },
   { label: "Orcid", href: "https://orcid.org/0000-0002-2982-9678" },
   { label: "LinkedIn", href: "https://linkedin.com/in/asim-hameed-36587a56" },
+  {
+    label: "Google Scholar",
+    href: "https://scholar.google.com/citations?user=G4Ao4V8AAAAJ&hl=en",
+  },
 ];
 
 export default function Home() {
   const year = new Date().getFullYear();
   const [activeCategory, setActiveCategory] = useState<Category>("Websites");
+  const [activeVisualSubcategory, setActiveVisualSubcategory] =
+    useState<VisualSubcategory>("LOGOS");
   const [heroImage, setHeroImage] = useState<ProjectImage | null>(null);
   const visibleProjects = projects.filter(
-    (project) => project.category === activeCategory,
+    (project) =>
+      project.category === activeCategory &&
+      (activeCategory !== "Visuals" ||
+        getVisualSubcategory(project) === activeVisualSubcategory),
   );
   const categoryNav = (variant: "rail" | "mobile") => (
     <nav aria-label="Work categories">
@@ -761,6 +802,14 @@ export default function Home() {
                   </a>
                 </div>
               ))}
+              <div className="pt-5 text-right">
+                <Link
+                  href="/vr-taxonomy"
+                  className="font-mono text-[11px] leading-[1.35] transition-opacity duration-150 hover:opacity-50"
+                >
+                  → A Visual VR Taxonomy
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -821,53 +870,83 @@ export default function Home() {
               </div>
             </div>
           ) : (
-            visibleProjects.map((project, index) => (
-              <div
-                key={project.id}
-                className={
-                  index === 0
-                    ? ""
-                    : project.title
-                      ? "mt-14 md:mt-20"
-                      : "mt-2 md:mt-4"
-                }
-              >
-                {project.title ? (
-                  <div className="mb-3">
-                    <div className="flex items-baseline justify-between gap-4">
-                      <h2 className="text-[12px] font-normal leading-none">
-                        {project.id === 109 ? (
-                          <>
-                            Asimorb Portfolio (featured on{" "}
-                            <a
-                              href="https://www.siteofsites.co/websites/asim"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="font-mono text-[11px] leading-[1.35] underline decoration-dotted underline-offset-2 transition-colors duration-150 hover:text-neutral-500"
-                            >
-                              Site of Sites <span className="text-[11px] leading-none">↗</span>
-                            </a>
-                            )
-                          </>
-                        ) : (
-                          project.title
-                        )}
-                      </h2>
-                      <p className="font-mono text-[13px] leading-none text-neutral-900">
-                        {project.year}
-                      </p>
-                    </div>
+            <>
+              {activeCategory === "Visuals" ? (
+                <nav className="mb-8" aria-label="Visual categories">
+                  <ul className="flex items-baseline gap-5 font-mono text-[11px] leading-[1.35]">
+                    {visualSubcategories.map((subcategory) => (
+                      <li key={subcategory}>
+                        <button
+                          type="button"
+                          className={`transition-colors duration-150 ${
+                            subcategory === activeVisualSubcategory
+                              ? "font-semibold text-neutral-900"
+                              : "font-normal text-neutral-400 hover:text-neutral-700"
+                          }`}
+                          onClick={() => setActiveVisualSubcategory(subcategory)}
+                        >
+                          {subcategory}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+              ) : null}
 
-                  {project.description &&
-                  project.category !== "Logos" &&
-                  project.category !== "Prints" ? (
-                    <ProjectDescription
-                      description={project.description}
-                      className={project.descriptionClassName}
-                    />
+              {visibleProjects.map((project, index) => (
+                <div
+                  key={project.id}
+                  className={
+                    index === 0
+                      ? ""
+                      : project.title
+                        ? "mt-14 md:mt-20"
+                        : "mt-2 md:mt-4"
+                  }
+                >
+                  {project.title ? (
+                    <div className="mb-3">
+                      <div className="flex items-baseline justify-between gap-4">
+                        <h2 className="text-[12px] font-normal leading-none">
+                          {project.href ? (
+                            <Link
+                              href={project.href}
+                              className="underline decoration-dotted underline-offset-2 transition-colors duration-150 hover:text-neutral-500"
+                            >
+                              {project.title}{" "}
+                              <span className="font-mono text-[11px] leading-none">↗</span>
+                            </Link>
+                          ) : project.id === 109 ? (
+                            <>
+                              Asimorb Portfolio (featured on{" "}
+                              <a
+                                href="https://www.siteofsites.co/websites/asim"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="font-mono text-[11px] leading-[1.35] underline decoration-dotted underline-offset-2 transition-colors duration-150 hover:text-neutral-500"
+                              >
+                                Site of Sites <span className="text-[11px] leading-none">↗</span>
+                              </a>
+                              )
+                            </>
+                          ) : (
+                            project.title
+                          )}
+                        </h2>
+                        <p className="font-mono text-[13px] leading-none text-neutral-900">
+                          {project.year}
+                        </p>
+                      </div>
+
+                    {project.description &&
+                    project.category !== "Visuals" ? (
+                      <ProjectDescription
+                        description={project.description}
+                        className={project.descriptionClassName}
+                      />
+                    ) : null}
+                    </div>
                   ) : null}
-                  </div>
-                ) : null}
 
                 {/* Card — artwork only */}
                 <div
@@ -875,9 +954,23 @@ export default function Home() {
                     project.cardClassName ?? "aspect-[4/3]"
                   }`}
                 >
+                  {project.href && project.images.length === 0 ? (
+                    <Link
+                      href={project.href}
+                      className="absolute inset-0 flex flex-col justify-between p-6 text-neutral-900 transition-colors duration-150 hover:bg-neutral-200/40"
+                    >
+                      <span className="font-mono text-[11px] leading-[1.35] text-neutral-500">
+                        alternate experience
+                      </span>
+                      <span className="max-w-[70%] text-[12px] leading-[1.25]">
+                        Enter the interactive VR taxonomy as a separate visual
+                        system.
+                      </span>
+                    </Link>
+                  ) : null}
+
                   {project.description &&
-                  (project.category === "Logos" ||
-                    project.category === "Prints") ? (
+                  (project.category === "Visuals") ? (
                     <div
                       className={`absolute top-5 right-5 z-10 text-right ${
                         project.descriptionClassName ?? "max-w-[52%]"
@@ -889,39 +982,70 @@ export default function Home() {
                     </div>
                   ) : null}
 
-                  {project.images.map((image) => (
-                    <button
-                      key={image.src}
-                      type="button"
-                      className={`absolute cursor-zoom-in ${image.className}`}
-                      onClick={() => setHeroImage(image)}
-                      aria-label={`Open ${image.alt}`}
-                    >
-                      {image.kind === "video" ? (
-                        <video
-                          src={image.src}
-                          className="h-full w-full object-contain"
-                          autoPlay
-                          muted
-                          loop
-                          playsInline
-                          preload="metadata"
-                        />
-                      ) : (
-                        <Image
-                          src={image.src}
-                          alt={image.alt}
-                          fill
-                          sizes="(max-width: 768px) 50vw, 360px"
-                          className={image.imageClassName ?? "object-contain"}
-                          unoptimized
-                        />
-                      )}
-                    </button>
-                  ))}
+                  {project.images.map((image) =>
+                    project.href ? (
+                      <Link
+                        key={image.src}
+                        href={project.href}
+                        className={`absolute ${image.className}`}
+                        aria-label={`Open ${project.title}`}
+                      >
+                        {image.kind === "video" ? (
+                          <video
+                            src={image.src}
+                            className="h-full w-full object-contain"
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            preload="metadata"
+                          />
+                        ) : (
+                          <Image
+                            src={image.src}
+                            alt={image.alt}
+                            fill
+                            sizes="(max-width: 768px) 100vw, 560px"
+                            className={image.imageClassName ?? "object-contain"}
+                            unoptimized
+                          />
+                        )}
+                      </Link>
+                    ) : (
+                      <button
+                        key={image.src}
+                        type="button"
+                        className={`absolute cursor-zoom-in ${image.className}`}
+                        onClick={() => setHeroImage(image)}
+                        aria-label={`Open ${image.alt}`}
+                      >
+                        {image.kind === "video" ? (
+                          <video
+                            src={image.src}
+                            className="h-full w-full object-contain"
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            preload="metadata"
+                          />
+                        ) : (
+                          <Image
+                            src={image.src}
+                            alt={image.alt}
+                            fill
+                            sizes="(max-width: 768px) 50vw, 360px"
+                            className={image.imageClassName ?? "object-contain"}
+                            unoptimized
+                          />
+                        )}
+                      </button>
+                    ),
+                  )}
                 </div>
-              </div>
-            ))
+                </div>
+              ))}
+            </>
           )}
         </div>
 
