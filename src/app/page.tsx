@@ -143,7 +143,7 @@ const projects: Project[] = [
   },
   {
     id: 110,
-    title: "A Visual Quality Taxonomy for VR",
+    title: "A Visual Quality Taxonomy for VR (desktop)",
     category: "Websites",
     year: "2026",
     description: "",
@@ -392,7 +392,7 @@ const projects: Project[] = [
   },
   {
     id: 300,
-    title: "Interactive VR Quality Taxonomy",
+    title: "Interactive VR Quality Taxonomy (desktop)",
     category: "Research",
     year: "2026",
     description:
@@ -807,7 +807,7 @@ export default function Home() {
                   href="/vr-taxonomy"
                   className="font-mono text-[11px] leading-[1.35] transition-opacity duration-150 hover:opacity-50"
                 >
-                  → A Visual VR Taxonomy
+                  → A Visual VR Taxonomy (desktop)
                 </Link>
               </div>
             </div>
