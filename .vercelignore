@@ -1,0 +1,19 @@
+/node_modules
+/.next
+/out
+/build
+/.git
+/local-source-assets
+.DS_Store
+*.tsbuildinfo
+next-env.d.ts
+*.mov
+
+# Local source exports not referenced by the deployed app.
+/public/Websites/untitled folder
+/public/Websites/Tax.mp4
+/public/Websites/Tax1.jpeg
+/public/Websites/Tax1.jpg
+/public/Websites/Tax2.jpeg
+/public/Websites/Tax2.jpg
+/public/Websites/Tax3.jpg

@@ -25,6 +25,7 @@
 *.pem
 *.mov
 public/Websites/untitled folder/
+local-source-assets/
 
 # debug
 npm-debug.log*
